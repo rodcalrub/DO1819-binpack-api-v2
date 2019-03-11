@@ -1,0 +1,307 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Bin-Pack Stress API
+  description: >-
+    This is a Bin Pack API for stress analysis and benchmarking
+    (Repository: https://github.com/MIS-DO/DO1819-binpack-api)  
+  contact:
+    name: Sojer23
+    email: josegallardog95@gmail.com
+    url: 'https://github.com/Sojer23'
+  license:
+    name: MIT
+    url: 'http://opensource.org/licenses/MIT'
+paths:
+  /api/v1/problems:
+    post:
+      description: Creates a new problem
+      operationId: newProblem
+      responses:
+        '200':
+          description: problem response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problemResults'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorModel'
+      requestBody:
+        x-name: problem
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/problem'
+        description: Problem to be created
+        required: true
+  '/api/v1/stress/{nBins}/{maxWidth}/{maxHeight}':
+    get:
+      x-router-controller: apiv1stressController
+      description: Returns a stressResult by problem
+      operationId: getStress
+      parameters:
+        - name: nBins
+          in: path
+          description: Number of bins for the generated problem
+          required: true
+          schema:
+            type: number
+        - name: maxWidth
+          in: path
+          description: Max Width of the bins to generate.
+          required: true
+          schema:
+            type: number
+        - name: maxHeight
+          in: path
+          description: Max Height of the bins to generate.
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: stress response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stressResult'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorModel'        
+  '/api/v1/stress/info':
+    get:
+      x-router-controller: apiv1stressController
+      description: Returns the performance info about system status
+      operationId: getStressInfo
+      responses:
+        '200':
+          description: stress info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/stressInfo'
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errorModel'        
+components:
+  schemas:
+    errorModel:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+    problem:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1
+        problem:
+          type: object
+          properties:
+            bins:
+              type: array
+              uniqueItems: true
+              minItems: 1
+              items:
+                required:
+                  - width
+                  - height
+                properties:
+                  width:
+                    type: number
+                    minLength: 1
+                  height:
+                    type: number
+                    minLength: 1
+          required:
+            - bins
+      required:
+        - id
+        - problem
+    problemResults:
+      description: ''
+      type: object
+      properties:
+        id:
+          type: string
+          minLength: 1 
+        problem:
+          type: object
+          properties:
+            bins:
+              type: array
+              uniqueItems: true
+              minItems: 1
+              items:
+                required:
+                  - width
+                  - height
+                properties:
+                  width:
+                    type: number
+                    minLength: 1
+                  height:
+                    type: number
+                    minLength: 1
+        solution:
+          type: object
+          properties:
+            bins:
+              type: array
+              uniqueItems: true
+              minItems: 1
+              items:
+                required:
+                  - width
+                  - height
+                properties:
+                  width:
+                    type: number
+                    minLength: 1
+                  height:
+                    type: number
+                    minLength: 1
+        stats:
+            type: object
+            properties:
+              solvingTime:
+                type: number
+            required:
+              - solvingTime
+      required:
+        - id
+        - problem
+        - solution
+        - stats
+    stressResult:
+      description: ''
+      type: object
+      properties:
+        problem:
+          type: string
+          minLength: 1
+        parameters:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - id
+              - value
+            properties:
+              id:
+                type: string
+                minLength: 1
+              value:
+                type: number
+                minLength: 1
+        info:
+          type: object
+          properties:
+            initialMemory:
+              type: number
+            heapStats:
+              type: object
+          required:
+            - initialMemory
+            - heapStats
+        result:
+          type: object
+          properties:
+            stages:
+              type: array
+              uniqueItems: true
+              minItems: 1
+              items:
+                required:
+                  - id
+                  - duration
+                  - memory
+                properties:
+                  id:
+                    type: string
+                    minLength: 1
+                  duration:
+                    type: number
+                  memory:
+                    type: number
+            total:
+              type: object
+              properties:
+                duration:
+                  type: number
+                memory:
+                  type: number
+              required:
+                - duration
+                - memory
+          required:
+            - stages
+            - total
+      required:
+        - problem
+        - parameters
+        - info
+        - result
+    stressInfo:
+      description: ''
+      type: object
+      properties:
+        cpuUsage:
+          type: number
+        cpuFree:
+          type: number
+        cpuCount:
+          type: number
+        cpuInfo:
+          type: object
+        freemem:
+          type: number
+        totalmem:
+          type: number
+        freememPercentage:
+          type: number
+        sysUptime:
+          type: number
+        processUptime:
+          type: number
+        loadavgLast1Minute:
+          type: number
+        loadavgLast5Minutes:
+          type: number
+        loadavgLast15Minutes:
+          type: number
+        platform:
+          type: string
+          minLength: 1
+      required:
+        - cpuUsage
+        - cpuFree
+        - cpuCount
+        - freemem
+        - totalmem
+        - freememPercentage
+        - sysUptime
+        - processUptime
+        - loadavgLast1Minute
+        - loadavgLast5Minutes
+        - loadavgLast15Minutes
+        - platform
