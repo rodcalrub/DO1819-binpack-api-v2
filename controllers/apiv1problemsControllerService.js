@@ -40,7 +40,7 @@ module.exports.newProblem = function newProblem(req, res, next) {
 
     //Calculate final time of execution (in ms)
     var solutionSolvingTime = (end - begin) / 1000;
-    results.stats.solvingTime = solutionSolvingTime;
+    results.solution.stats.solvingTime = solutionSolvingTime;
 
     results.solution.width = solution.width;
     results.solution.height = solution.height;
