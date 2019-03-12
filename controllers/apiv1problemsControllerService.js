@@ -46,7 +46,7 @@ module.exports.newProblem = function newProblem(req, res, next) {
     results.solution.height = solution.height;
 
     //Send the resutls
-    res.status(201).send(results);
+    res.status(200).send(results);
   }
 
   
