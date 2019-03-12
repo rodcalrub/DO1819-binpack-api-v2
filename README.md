@@ -1,5 +1,11 @@
 # BIN-PACK-API
 
+## Behaviour
+In the bin packing problem, objects of different volumes must be packed into a finite number of bins or containers each of volume V in a way that minimizes the number of bins used. [See more](https://en.wikipedia.org/wiki/Bin_packing_problem)
+
+The follow image represent the problem:
+![alt text](https://i.stack.imgur.com/1bLta.png)
+
 ## Overview
 This is a Bin-Pack API for stress analysis and benchmarking. 
 
@@ -73,5 +79,61 @@ will get:
   "stats": {
     "solvingTime": 0
   }
+}
+```
+
+#### Stress Info Request
+
+- `GET /api/v1/stress/info` Endpoint that returns the performance info about system status
+
+You will get something similar to this according to your system:
+```json
+{
+  "cpuUsage": 0.058633138304494015,
+  "cpuFree": 0.9551193899237405,
+  "cpuCount": 8,
+  "memInfo": {
+    "total": 16271.301,
+    "free": 8018.117,
+    "used": 8253.184,
+    "active": 8253.184,
+    "available": 8018.117,
+    "buffcache": 0,
+    "swaptotal": 2432,
+    "swapused": 31,
+    "swapfree": 2401
+  },
+  "freemem": 8017.984,
+  "totalmem": 16271.301,
+  "freememPercentage": 0.4927684936068178,
+  "cpuInfo": {
+    "manufacturer": "Intel®",
+    "brand": "Core™ i7-8565U",
+    "vendor": "GenuineIntel",
+    "family": "6",
+    "model": "142",
+    "stepping": "11",
+    "revision": "",
+    "voltage": "",
+    "speed": "1.80",
+    "speedmin": "",
+    "speedmax": "1.99",
+    "cores": 8,
+    "physicalCores": 4,
+    "processors": 1,
+    "socket": "BGA1528",
+    "cache": {
+      "l1d": 0,
+      "l1i": 0,
+      "l2": 1048576,
+      "l3": 8388608
+    }
+  },
+  "sysUptime": 683490,
+  "processUptime": 2073.671,
+  "loadavgLast1Minute": 0,
+  "loadavgLast5Minutes": 0,
+  "loadavgLast15Minutes": 0,
+  "platform": "win32"
 }
 ```
