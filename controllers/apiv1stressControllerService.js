@@ -1,6 +1,7 @@
 'use strict'
 const v8 = require('v8');
 
+
 function generateRandomBins(nBins, maxWidth, maxHeight){
 
   var nB = nBins || 300;
@@ -127,7 +128,7 @@ module.exports.getStress = function getStress(req, res, next) {
     results.result.total.duration = roundedDuration;
     results.result.total.memory = Math.round((finalMemUsed - initialMemUsed) * 1000) / 1000;;
     
-
+    console.log("Tiempo de ejecución con : "+JSON.stringify(results.parameters)+": "+String(results.result.total.duration));
     res.send(results);
 };
 
