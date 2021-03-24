@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/MIS-DO/DO1819-binpack-api/issues"
   },
-  "homepage": "https://github.com/MIS-DO/DO1819-binpack-api#readme"
+  "homepage": "https://github.com/MIS-DO/DO1819-binpack-api#readme",
+  "devDependencies": {
+    "chakram": "^1.5.0"
+  }
 }
